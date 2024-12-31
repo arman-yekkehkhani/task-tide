@@ -5,32 +5,36 @@ import (
 	"testing"
 )
 
-type MockRepo struct {
-	storage map[ID]Chore
+type InMemoryRepository struct {
+	db []Chore
 }
 
-func (r MockRepo) Create(chore Chore) error {
-	r.storage[chore.ID] = chore
-	return nil
+func (r *InMemoryRepository) Create(chore *Chore) (ID, error) {
+	if r.db == nil {
+		r.db = make([]Chore, 0)
+	}
+	chore.ID = ID(len(r.db) + 1)
+	r.db = append(r.db, *chore)
+	return chore.ID, nil
 }
 
-func (MockRepo) Update(chore Chore) error {
+func (r *InMemoryRepository) Update(chore *Chore) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (MockRepo) Delete(chore Chore) error {
+func (r *InMemoryRepository) Delete(chore *Chore) error {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (MockRepo) GetById(id int32) (*Chore, error) {
+func (r *InMemoryRepository) GetById(id int32) (*Chore, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
 func TestCreateChore_Successful(t *testing.T) {
-	mockRepo := MockRepo{storage: make(map[ID]Chore)}
+	repo := InMemoryRepository{}
 
 	chore := Chore{
 		Title:       "title",
@@ -38,7 +42,7 @@ func TestCreateChore_Successful(t *testing.T) {
 	}
 
 	service := ServiceImpl{
-		Repo: mockRepo,
+		Repo: &repo,
 	}
 
 	_, err := service.Create(chore)

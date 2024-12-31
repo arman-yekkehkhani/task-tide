@@ -66,16 +66,3 @@ func (r *SqliteRepository) initDb() (ID, error) {
 	}
 	return 0, nil
 }
-
-type InMemoryRepository struct {
-	db []Chore
-}
-
-func (r *InMemoryRepository) Create(chore *Chore) (ID, error) {
-	if r.db == nil {
-		r.db = make([]Chore, 0)
-	}
-	chore.ID = ID(len(r.db) + 1)
-	r.db = append(r.db, *chore)
-	return chore.ID, nil
-}
