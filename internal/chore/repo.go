@@ -8,20 +8,21 @@ import (
 
 type Repository interface {
 	Create(chore *Chore) (ID, error)
-	//Update(chore chore.Chore) error
-	//Delete(chore chore.Chore) error
-	//GetById(id int32) (*chore.Chore, error)
+	GetByID(id ID) *Chore
+	Update(c *Chore) (*Chore, error)
 }
 
 type SqliteRepository struct {
 	db *sql.DB
 }
 
-func (r *SqliteRepository) Create(chore *Chore) (ID, error) {
-	if i, err := r.initDb(); err != nil {
-		return i, err
-	}
+func NewSqliteRepository(source string) *SqliteRepository {
+	r := &SqliteRepository{}
+	r.initDb(source)
+	return r
+}
 
+func (r *SqliteRepository) Create(chore *Chore) (ID, error) {
 	id := r.getLastId()
 
 	if i, err := r.addChore(chore, id); err != nil {
@@ -50,9 +51,9 @@ func (r *SqliteRepository) getLastId() int64 {
 	return id
 }
 
-func (r *SqliteRepository) initDb() (ID, error) {
+func (r *SqliteRepository) initDb(source string) (ID, error) {
 	if r.db == nil {
-		r.db, _ = sql.Open("sqlite", "db")
+		r.db, _ = sql.Open("sqlite", source)
 		_, err := r.db.Exec(`
 			CREATE TABLE IF NOT EXISTS chores (
     			id BIGINT PRIMARY KEY,

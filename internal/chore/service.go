@@ -4,6 +4,11 @@ import (
 	"errors"
 )
 
+const (
+	NilChoreMsg      = "can not update using nil chore"
+	NonExistingChore = "can not update using non-existent chore"
+)
+
 var (
 	EmptyTitleOrDescription = errors.New("empty chore title, description")
 )
@@ -27,4 +32,26 @@ func (s *ServiceImpl) Create(chore Chore) (ID, error) {
 	}
 
 	return id, nil
+}
+
+func (s *ServiceImpl) Update(chore *Chore) (*Chore, error) {
+	if chore == nil {
+		return nil, errors.New(NilChoreMsg)
+	}
+
+	c := s.Repo.GetByID(chore.ID)
+	if c == nil {
+		return nil, errors.New(NonExistingChore)
+	}
+	//
+	//if chore.Title != "" {
+	//	c.Title = chore.Title
+	//}
+	//
+	//if chore.Description != "" {
+	//	c.Description = chore.Description
+	//}
+	//
+	c, err := s.Repo.Update(c)
+	return c, err
 }
