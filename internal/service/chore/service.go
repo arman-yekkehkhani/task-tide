@@ -7,13 +7,11 @@ import (
 	"strings"
 )
 
-const (
-	NilChoreMsg      = "can not update using nil chore"
-	NonExistingChore = "can not update using non-existent chore"
-)
+const ()
 
 var (
 	EmptyTitleOrDescription = errors.New("empty chore title, description")
+	ChoreNotFound           = errors.New("chore does not exist")
 )
 
 type Service interface {
@@ -31,4 +29,18 @@ func (s *ServiceImpl) Create(chore *model.Chore) (model.ID, error) {
 
 	id, err := s.Repo.Create(chore)
 	return id, err
+}
+
+func (s *ServiceImpl) Update(new *model.Chore) (*model.Chore, error) {
+	old := s.Repo.GetByID(new.ID)
+	if old == nil {
+		return nil, ChoreNotFound
+	}
+
+	if strings.TrimSpace(new.Title) != "" {
+		old.Title = new.Title
+	}
+	old.Description = new.Description
+
+	return s.Repo.Save(old)
 }

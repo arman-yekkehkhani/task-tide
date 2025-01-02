@@ -124,12 +124,12 @@ func (_c *Repository_GetByID_Call) RunAndReturn(run func(chore.ID) *chore.Chore)
 	return _c
 }
 
-// Update provides a mock function with given fields: c
-func (_m *Repository) Update(c *chore.Chore) (*chore.Chore, error) {
+// Save provides a mock function with given fields: c
+func (_m *Repository) Save(c *chore.Chore) (*chore.Chore, error) {
 	ret := _m.Called(c)
 
 	if len(ret) == 0 {
-		panic("no return value specified for Update")
+		panic("no return value specified for Save")
 	}
 
 	var r0 *chore.Chore
@@ -154,30 +154,30 @@ func (_m *Repository) Update(c *chore.Chore) (*chore.Chore, error) {
 	return r0, r1
 }
 
-// Repository_Update_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Update'
-type Repository_Update_Call struct {
+// Repository_Save_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Save'
+type Repository_Save_Call struct {
 	*mock.Call
 }
 
-// Update is a helper method to define mock.On call
+// Save is a helper method to define mock.On call
 //   - c *chore.Chore
-func (_e *Repository_Expecter) Update(c interface{}) *Repository_Update_Call {
-	return &Repository_Update_Call{Call: _e.mock.On("Update", c)}
+func (_e *Repository_Expecter) Save(c interface{}) *Repository_Save_Call {
+	return &Repository_Save_Call{Call: _e.mock.On("Save", c)}
 }
 
-func (_c *Repository_Update_Call) Run(run func(c *chore.Chore)) *Repository_Update_Call {
+func (_c *Repository_Save_Call) Run(run func(c *chore.Chore)) *Repository_Save_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(*chore.Chore))
 	})
 	return _c
 }
 
-func (_c *Repository_Update_Call) Return(_a0 *chore.Chore, _a1 error) *Repository_Update_Call {
+func (_c *Repository_Save_Call) Return(_a0 *chore.Chore, _a1 error) *Repository_Save_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *Repository_Update_Call) RunAndReturn(run func(*chore.Chore) (*chore.Chore, error)) *Repository_Update_Call {
+func (_c *Repository_Save_Call) RunAndReturn(run func(*chore.Chore) (*chore.Chore, error)) *Repository_Save_Call {
 	_c.Call.Return(run)
 	return _c
 }
