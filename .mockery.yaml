@@ -1,0 +1,12 @@
+with-expecter: true
+packages:
+  github.com/arman-yekkehkhani/task-tide/internal/repo/chore:
+    config:
+      recursive: True
+      dir: "{{.InterfaceDir}}/mocks"
+      filename: "{{.InterfaceName}}_mock.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "mocks"
+      inpackage: False
+    interfaces:
+      Repository:

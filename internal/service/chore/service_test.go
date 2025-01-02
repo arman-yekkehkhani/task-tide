@@ -13,7 +13,7 @@ func TestGivenTitleAndDescription_CreateChore_IsSuccessful(t *testing.T) {
 		Title: "title", Description: "desc",
 	}
 
-	repo := mocks.NewRepository(t)
+	repo := mocks.NewMockRepository(t)
 	repo.EXPECT().Create(c).Return(model.ID(1), nil)
 
 	svc := ServiceImpl{
@@ -30,7 +30,7 @@ func TestGivenTitleAndDescription_CreateChore_IsSuccessful(t *testing.T) {
 func TestGivenEmptyTitle_CreateChore_ReturnsError(t *testing.T) {
 	// given
 	testcases := []string{"", " "}
-	repo := mocks.NewRepository(t)
+	repo := mocks.NewMockRepository(t)
 	svc := ServiceImpl{Repo: repo}
 
 	for _, title := range testcases {
@@ -63,7 +63,7 @@ func TestGivenTitleAndDescription_UpdateChore_ReturnsUpdatedChore(t *testing.T) 
 		Description: "description",
 	}
 
-	repo := mocks.NewRepository(t)
+	repo := mocks.NewMockRepository(t)
 
 	repo.EXPECT().GetByID(id).Return(oldChore)
 	repo.EXPECT().Save(newChore).Return(newChore, nil)
@@ -102,7 +102,7 @@ func TestGivenEmptyTitle_UpdateChore_ShouldNotChangeTile(t *testing.T) {
 		Description: newDescription,
 	}
 
-	repo := mocks.NewRepository(t)
+	repo := mocks.NewMockRepository(t)
 
 	repo.EXPECT().GetByID(id).Return(oldChore)
 	repo.EXPECT().Save(updateChore).Return(updateChore, nil)
@@ -123,7 +123,7 @@ func TestGivenNonExistingId_UpdateChore_ShouldReturnNotFoundError(t *testing.T) 
 	id := model.ID(1)
 	c := &model.Chore{ID: id}
 
-	repo := mocks.NewRepository(t)
+	repo := mocks.NewMockRepository(t)
 	repo.EXPECT().GetByID(id).Return(nil)
 
 	svc := ServiceImpl{Repo: repo}
@@ -144,7 +144,7 @@ func TestGivenId_DeleteChore_ShouldCallRepoDelete(t *testing.T) {
 		Description: "desc",
 	}
 
-	repo := mocks.NewRepository(t)
+	repo := mocks.NewMockRepository(t)
 	repo.EXPECT().DeleteById(model.ID(1))
 
 	svc := ServiceImpl{
