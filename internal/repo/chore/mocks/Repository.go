@@ -76,6 +76,39 @@ func (_c *Repository_Create_Call) RunAndReturn(run func(*chore.Chore) (chore.ID,
 	return _c
 }
 
+// DeleteById provides a mock function with given fields: id
+func (_m *Repository) DeleteById(id chore.ID) {
+	_m.Called(id)
+}
+
+// Repository_DeleteById_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteById'
+type Repository_DeleteById_Call struct {
+	*mock.Call
+}
+
+// DeleteById is a helper method to define mock.On call
+//   - id chore.ID
+func (_e *Repository_Expecter) DeleteById(id interface{}) *Repository_DeleteById_Call {
+	return &Repository_DeleteById_Call{Call: _e.mock.On("DeleteById", id)}
+}
+
+func (_c *Repository_DeleteById_Call) Run(run func(id chore.ID)) *Repository_DeleteById_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(chore.ID))
+	})
+	return _c
+}
+
+func (_c *Repository_DeleteById_Call) Return() *Repository_DeleteById_Call {
+	_c.Call.Return()
+	return _c
+}
+
+func (_c *Repository_DeleteById_Call) RunAndReturn(run func(chore.ID)) *Repository_DeleteById_Call {
+	_c.Run(run)
+	return _c
+}
+
 // GetByID provides a mock function with given fields: id
 func (_m *Repository) GetByID(id chore.ID) *chore.Chore {
 	ret := _m.Called(id)

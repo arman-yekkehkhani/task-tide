@@ -11,6 +11,7 @@ type Repository interface {
 	Create(chore *model.Chore) (model.ID, error)
 	GetByID(id model.ID) *model.Chore
 	Save(c *model.Chore) (*model.Chore, error)
+	DeleteById(id model.ID)
 }
 
 type SqliteRepository struct {

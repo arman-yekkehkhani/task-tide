@@ -132,5 +132,27 @@ func TestGivenNonExistingId_UpdateChore_ShouldReturnNotFoundError(t *testing.T) 
 	_, err := svc.Update(c)
 
 	// then
-	assert.EqualError(t, err, ChoreNotFound.Error())
+	assert.EqualError(t, err, NotFound.Error())
+}
+
+func TestGivenId_DeleteChore_ShouldCallRepoDelete(t *testing.T) {
+	// given
+	id := model.ID(1)
+	c := &model.Chore{
+		ID:          id,
+		Title:       "title",
+		Description: "desc",
+	}
+
+	repo := mocks.NewRepository(t)
+	repo.EXPECT().DeleteById(model.ID(1))
+
+	svc := ServiceImpl{
+		Repo: repo,
+	}
+
+	// when
+	svc.Delete(c)
+
+	// then
 }

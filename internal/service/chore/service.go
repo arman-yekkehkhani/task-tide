@@ -7,11 +7,9 @@ import (
 	"strings"
 )
 
-const ()
-
 var (
 	EmptyTitleOrDescription = errors.New("empty chore title, description")
-	ChoreNotFound           = errors.New("chore does not exist")
+	NotFound                = errors.New("chore does not exist")
 )
 
 type Service interface {
@@ -34,7 +32,7 @@ func (s *ServiceImpl) Create(chore *model.Chore) (model.ID, error) {
 func (s *ServiceImpl) Update(new *model.Chore) (*model.Chore, error) {
 	old := s.Repo.GetByID(new.ID)
 	if old == nil {
-		return nil, ChoreNotFound
+		return nil, NotFound
 	}
 
 	if strings.TrimSpace(new.Title) != "" {
@@ -43,4 +41,8 @@ func (s *ServiceImpl) Update(new *model.Chore) (*model.Chore, error) {
 	old.Description = new.Description
 
 	return s.Repo.Save(old)
+}
+
+func (s *ServiceImpl) Delete(chore *model.Chore) {
+	s.Repo.DeleteById(chore.ID)
 }
