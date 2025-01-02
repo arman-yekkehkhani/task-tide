@@ -2,7 +2,7 @@ package server
 
 import "C"
 import (
-	"github.com/arman-yekkehkhani/task-tide/internal/chore"
+	"github.com/arman-yekkehkhani/task-tide/internal/handler/chore"
 	"net/http"
 )
 
@@ -11,12 +11,13 @@ type Server struct {
 }
 
 func New() *Server {
-	handler := chore.HandlerImpl{
-		Srv: &chore.ServiceImpl{
-			Repo: &chore.SqliteRepository{},
-		},
-	}
-	return &Server{chore: handler}
+	//handler := chore.HandlerImpl{
+	//	Srv: &chore.ServiceImpl{
+	//		Repo: &chore.SqliteRepository{},
+	//	},
+	//}
+	//return &Server{chore: handler}
+	return &Server{}
 }
 
 func (s *Server) Register() {

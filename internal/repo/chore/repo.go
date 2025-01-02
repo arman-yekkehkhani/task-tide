@@ -3,13 +3,14 @@ package chore
 import (
 	"database/sql"
 	"fmt"
+	chore2 "github.com/arman-yekkehkhani/task-tide/internal/model/chore"
 	_ "github.com/glebarez/go-sqlite"
 )
 
 type Repository interface {
-	Create(chore *Chore) (ID, error)
-	GetByID(id ID) *Chore
-	Update(c *Chore) (*Chore, error)
+	Create(chore *chore2.Chore) (chore2.ID, error)
+	GetByID(id chore2.ID) *chore2.Chore
+	Update(c *chore2.Chore) (*chore2.Chore, error)
 }
 
 type SqliteRepository struct {
@@ -22,16 +23,15 @@ func NewSqliteRepository(source string) *SqliteRepository {
 	return r
 }
 
-func (r *SqliteRepository) Create(chore *Chore) (ID, error) {
+func (r *SqliteRepository) Create(chore *chore2.Chore) (chore2.ID, error) {
 	id := r.getLastId()
-
 	if i, err := r.addChore(chore, id); err != nil {
 		return i, err
 	}
-	return ID(id), nil
+	return chore2.ID(id), nil
 }
 
-func (r *SqliteRepository) addChore(chore *Chore, id int64) (ID, error) {
+func (r *SqliteRepository) addChore(chore *chore2.Chore, id int64) (chore2.ID, error) {
 	res, err := r.db.Exec("INSERT INTO chores (id, title, description) values (?, ?, ?)", id+1, chore.Title, chore.Description)
 	fmt.Printf("res: %q \n", res)
 	if err != nil {
@@ -51,7 +51,7 @@ func (r *SqliteRepository) getLastId() int64 {
 	return id
 }
 
-func (r *SqliteRepository) initDb(source string) (ID, error) {
+func (r *SqliteRepository) initDb(source string) (chore2.ID, error) {
 	if r.db == nil {
 		r.db, _ = sql.Open("sqlite", source)
 		_, err := r.db.Exec(`
