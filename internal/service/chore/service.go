@@ -24,6 +24,7 @@ func (s *ServiceImpl) Create(chore *Chore) (ID, error) {
 	if strings.TrimSpace(chore.Title) == "" {
 		return 0, EmptyTitleOrDescription
 	}
+	chore.Status = PENDING
 
 	id, err := s.Repo.Create(chore)
 	return id, err
@@ -39,6 +40,7 @@ func (s *ServiceImpl) Update(new *Chore) (*Chore, error) {
 		old.Title = new.Title
 	}
 	old.Description = new.Description
+	old.Status = new.Status
 
 	return s.Repo.Save(old)
 }

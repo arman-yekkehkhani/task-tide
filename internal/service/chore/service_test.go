@@ -27,6 +27,29 @@ func TestGivenTitleAndDescription_CreateChore_IsSuccessful(t *testing.T) {
 	assert.Nil(t, err)
 }
 
+func TestGivenChore_CreateChore_shouldSetPendingStatus(t *testing.T) {
+	c := &model.Chore{
+		Title: "title", Description: "desc",
+	}
+
+	repo := mocks.NewMockRepository(t)
+	repo.EXPECT().Create(
+		&model.Chore{
+			Title: "title", Description: "desc", Status: model.PENDING,
+		},
+	).Return(model.ID(1), nil)
+
+	svc := ServiceImpl{
+		Repo: repo,
+	}
+
+	// when
+	_, err := svc.Create(c)
+
+	// then
+	assert.Nil(t, err)
+}
+
 func TestGivenEmptyTitle_CreateChore_ReturnsError(t *testing.T) {
 	// given
 	testcases := []string{"", " "}
@@ -133,6 +156,49 @@ func TestGivenNonExistingId_UpdateChore_ShouldReturnNotFoundError(t *testing.T) 
 
 	// then
 	assert.EqualError(t, err, NotFound.Error())
+}
+
+func TestGivenNewStatus_UpdateChore_ShouldSetNewStatus(t *testing.T) {
+	// given
+	id := model.ID(1)
+	title := "title"
+	description := "description"
+
+	oldChore := &model.Chore{
+		ID:          id,
+		Title:       title,
+		Description: description,
+		Status:      model.PENDING,
+	}
+
+	newChore := &model.Chore{
+		ID:          id,
+		Description: description,
+		Status:      model.IN_PROGRESS,
+	}
+
+	updatedChore := &model.Chore{
+		ID:          id,
+		Title:       title,
+		Description: description,
+		Status:      model.IN_PROGRESS,
+	}
+
+	repo := mocks.NewMockRepository(t)
+	repo.EXPECT().GetByID(id).Return(oldChore)
+	repo.EXPECT().Save(updatedChore).Return(updatedChore, nil)
+
+	svc := ServiceImpl{Repo: repo}
+
+	// when
+	res, err := svc.Update(newChore)
+
+	// then
+	assert.Nil(t, err)
+	assert.Equal(t, model.IN_PROGRESS, res.Status)
+	assert.Equal(t, title, res.Title)
+	assert.Equal(t, description, res.Description)
+	assert.Equal(t, id, res.ID)
 }
 
 func TestGivenId_DeleteChore_ShouldCallRepoDelete(t *testing.T) {
