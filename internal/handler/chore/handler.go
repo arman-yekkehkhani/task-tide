@@ -3,8 +3,8 @@ package chore
 import (
 	"encoding/json"
 	"fmt"
-	chore2 "github.com/arman-yekkehkhani/task-tide/internal/model/chore"
-	chore3 "github.com/arman-yekkehkhani/task-tide/internal/service/chore"
+	. "github.com/arman-yekkehkhani/task-tide/internal/model/chore"
+	. "github.com/arman-yekkehkhani/task-tide/internal/service/chore"
 	"net/http"
 )
 
@@ -13,11 +13,11 @@ type Handler interface {
 }
 
 type HandlerImpl struct {
-	Srv chore3.Service
+	Srv Service
 }
 
 func (h HandlerImpl) Create(w http.ResponseWriter, r *http.Request) {
-	c := chore2.Chore{}
+	c := Chore{}
 
 	if err := json.NewDecoder(r.Body).Decode(&c); err != nil {
 		w.WriteHeader(http.StatusBadRequest)

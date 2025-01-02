@@ -2,8 +2,8 @@ package chore
 
 import (
 	"errors"
-	model "github.com/arman-yekkehkhani/task-tide/internal/model/chore"
-	repo "github.com/arman-yekkehkhani/task-tide/internal/repo/chore"
+	. "github.com/arman-yekkehkhani/task-tide/internal/model/chore"
+	. "github.com/arman-yekkehkhani/task-tide/internal/repo/chore"
 	"strings"
 )
 
@@ -13,14 +13,14 @@ var (
 )
 
 type Service interface {
-	Create(chore model.Chore) (model.ID, error)
+	Create(chore Chore) (ID, error)
 }
 
 type ServiceImpl struct {
-	Repo repo.Repository
+	Repo Repository
 }
 
-func (s *ServiceImpl) Create(chore *model.Chore) (model.ID, error) {
+func (s *ServiceImpl) Create(chore *Chore) (ID, error) {
 	if strings.TrimSpace(chore.Title) == "" {
 		return 0, EmptyTitleOrDescription
 	}
@@ -29,7 +29,7 @@ func (s *ServiceImpl) Create(chore *model.Chore) (model.ID, error) {
 	return id, err
 }
 
-func (s *ServiceImpl) Update(new *model.Chore) (*model.Chore, error) {
+func (s *ServiceImpl) Update(new *Chore) (*Chore, error) {
 	old := s.Repo.GetByID(new.ID)
 	if old == nil {
 		return nil, NotFound
@@ -43,6 +43,6 @@ func (s *ServiceImpl) Update(new *model.Chore) (*model.Chore, error) {
 	return s.Repo.Save(old)
 }
 
-func (s *ServiceImpl) Delete(chore *model.Chore) {
+func (s *ServiceImpl) Delete(chore *Chore) {
 	s.Repo.DeleteById(chore.ID)
 }
