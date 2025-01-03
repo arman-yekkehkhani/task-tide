@@ -1,6 +1,7 @@
 package chore
 
 import (
+	. "github.com/arman-yekkehkhani/task-tide/internal/model/base"
 	model "github.com/arman-yekkehkhani/task-tide/internal/model/chore"
 	"github.com/arman-yekkehkhani/task-tide/internal/repo/chore/mocks"
 	"github.com/stretchr/testify/assert"
@@ -14,7 +15,7 @@ func TestGivenTitleAndDescription_CreateChore_IsSuccessful(t *testing.T) {
 	}
 
 	repo := mocks.NewMockRepository(t)
-	repo.EXPECT().Create(c).Return(model.ID(1), nil)
+	repo.EXPECT().Create(c).Return(ID(1), nil)
 
 	svc := ServiceImpl{
 		Repo: repo,
@@ -37,7 +38,7 @@ func TestGivenChore_CreateChore_shouldSetPendingStatus(t *testing.T) {
 		&model.Chore{
 			Title: "title", Description: "desc", Status: model.PENDING,
 		},
-	).Return(model.ID(1), nil)
+	).Return(ID(1), nil)
 
 	svc := ServiceImpl{
 		Repo: repo,
@@ -73,7 +74,7 @@ func TestGivenTitleAndDescription_UpdateChore_ReturnsUpdatedChore(t *testing.T) 
 	// given
 	title := "new title"
 	description := "new description"
-	id := model.ID(1)
+	id := ID(1)
 	newChore := &model.Chore{
 		ID:          id,
 		Title:       title,
@@ -108,7 +109,7 @@ func TestGivenEmptyTitle_UpdateChore_ShouldNotChangeTile(t *testing.T) {
 	oldDescription := "description"
 	newTitle := "  "
 	newDescription := "new description"
-	id := model.ID(1)
+	id := ID(1)
 	newChore := &model.Chore{
 		ID:          id,
 		Title:       newTitle,
@@ -143,7 +144,7 @@ func TestGivenEmptyTitle_UpdateChore_ShouldNotChangeTile(t *testing.T) {
 
 func TestGivenNonExistingId_UpdateChore_ShouldReturnNotFoundError(t *testing.T) {
 	// given
-	id := model.ID(1)
+	id := ID(1)
 	c := &model.Chore{ID: id}
 
 	repo := mocks.NewMockRepository(t)
@@ -160,7 +161,7 @@ func TestGivenNonExistingId_UpdateChore_ShouldReturnNotFoundError(t *testing.T) 
 
 func TestGivenNewStatus_UpdateChore_ShouldSetNewStatus(t *testing.T) {
 	// given
-	id := model.ID(1)
+	id := ID(1)
 	title := "title"
 	description := "description"
 
@@ -203,7 +204,7 @@ func TestGivenNewStatus_UpdateChore_ShouldSetNewStatus(t *testing.T) {
 
 func TestGivenId_DeleteChore_ShouldCallRepoDelete(t *testing.T) {
 	// given
-	id := model.ID(1)
+	id := ID(1)
 	c := &model.Chore{
 		ID:          id,
 		Title:       "title",
@@ -211,7 +212,7 @@ func TestGivenId_DeleteChore_ShouldCallRepoDelete(t *testing.T) {
 	}
 
 	repo := mocks.NewMockRepository(t)
-	repo.EXPECT().DeleteById(model.ID(1))
+	repo.EXPECT().DeleteById(ID(1))
 
 	svc := ServiceImpl{
 		Repo: repo,

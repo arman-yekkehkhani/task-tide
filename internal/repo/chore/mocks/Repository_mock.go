@@ -3,7 +3,9 @@
 package mocks
 
 import (
+	base "github.com/arman-yekkehkhani/task-tide/internal/model/base"
 	chore "github.com/arman-yekkehkhani/task-tide/internal/model/chore"
+
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -21,22 +23,22 @@ func (_m *MockRepository) EXPECT() *MockRepository_Expecter {
 }
 
 // Create provides a mock function with given fields: _a0
-func (_m *MockRepository) Create(_a0 *chore.Chore) (chore.ID, error) {
+func (_m *MockRepository) Create(_a0 *chore.Chore) (base.ID, error) {
 	ret := _m.Called(_a0)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Create")
 	}
 
-	var r0 chore.ID
+	var r0 base.ID
 	var r1 error
-	if rf, ok := ret.Get(0).(func(*chore.Chore) (chore.ID, error)); ok {
+	if rf, ok := ret.Get(0).(func(*chore.Chore) (base.ID, error)); ok {
 		return rf(_a0)
 	}
-	if rf, ok := ret.Get(0).(func(*chore.Chore) chore.ID); ok {
+	if rf, ok := ret.Get(0).(func(*chore.Chore) base.ID); ok {
 		r0 = rf(_a0)
 	} else {
-		r0 = ret.Get(0).(chore.ID)
+		r0 = ret.Get(0).(base.ID)
 	}
 
 	if rf, ok := ret.Get(1).(func(*chore.Chore) error); ok {
@@ -66,18 +68,18 @@ func (_c *MockRepository_Create_Call) Run(run func(_a0 *chore.Chore)) *MockRepos
 	return _c
 }
 
-func (_c *MockRepository_Create_Call) Return(_a0 chore.ID, _a1 error) *MockRepository_Create_Call {
+func (_c *MockRepository_Create_Call) Return(_a0 base.ID, _a1 error) *MockRepository_Create_Call {
 	_c.Call.Return(_a0, _a1)
 	return _c
 }
 
-func (_c *MockRepository_Create_Call) RunAndReturn(run func(*chore.Chore) (chore.ID, error)) *MockRepository_Create_Call {
+func (_c *MockRepository_Create_Call) RunAndReturn(run func(*chore.Chore) (base.ID, error)) *MockRepository_Create_Call {
 	_c.Call.Return(run)
 	return _c
 }
 
 // DeleteById provides a mock function with given fields: id
-func (_m *MockRepository) DeleteById(id chore.ID) {
+func (_m *MockRepository) DeleteById(id base.ID) {
 	_m.Called(id)
 }
 
@@ -87,14 +89,14 @@ type MockRepository_DeleteById_Call struct {
 }
 
 // DeleteById is a helper method to define mock.On call
-//   - id chore.ID
+//   - id base.ID
 func (_e *MockRepository_Expecter) DeleteById(id interface{}) *MockRepository_DeleteById_Call {
 	return &MockRepository_DeleteById_Call{Call: _e.mock.On("DeleteById", id)}
 }
 
-func (_c *MockRepository_DeleteById_Call) Run(run func(id chore.ID)) *MockRepository_DeleteById_Call {
+func (_c *MockRepository_DeleteById_Call) Run(run func(id base.ID)) *MockRepository_DeleteById_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(chore.ID))
+		run(args[0].(base.ID))
 	})
 	return _c
 }
@@ -104,13 +106,13 @@ func (_c *MockRepository_DeleteById_Call) Return() *MockRepository_DeleteById_Ca
 	return _c
 }
 
-func (_c *MockRepository_DeleteById_Call) RunAndReturn(run func(chore.ID)) *MockRepository_DeleteById_Call {
+func (_c *MockRepository_DeleteById_Call) RunAndReturn(run func(base.ID)) *MockRepository_DeleteById_Call {
 	_c.Run(run)
 	return _c
 }
 
 // GetByID provides a mock function with given fields: id
-func (_m *MockRepository) GetByID(id chore.ID) *chore.Chore {
+func (_m *MockRepository) GetByID(id base.ID) *chore.Chore {
 	ret := _m.Called(id)
 
 	if len(ret) == 0 {
@@ -118,7 +120,7 @@ func (_m *MockRepository) GetByID(id chore.ID) *chore.Chore {
 	}
 
 	var r0 *chore.Chore
-	if rf, ok := ret.Get(0).(func(chore.ID) *chore.Chore); ok {
+	if rf, ok := ret.Get(0).(func(base.ID) *chore.Chore); ok {
 		r0 = rf(id)
 	} else {
 		if ret.Get(0) != nil {
@@ -135,14 +137,14 @@ type MockRepository_GetByID_Call struct {
 }
 
 // GetByID is a helper method to define mock.On call
-//   - id chore.ID
+//   - id base.ID
 func (_e *MockRepository_Expecter) GetByID(id interface{}) *MockRepository_GetByID_Call {
 	return &MockRepository_GetByID_Call{Call: _e.mock.On("GetByID", id)}
 }
 
-func (_c *MockRepository_GetByID_Call) Run(run func(id chore.ID)) *MockRepository_GetByID_Call {
+func (_c *MockRepository_GetByID_Call) Run(run func(id base.ID)) *MockRepository_GetByID_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		run(args[0].(chore.ID))
+		run(args[0].(base.ID))
 	})
 	return _c
 }
@@ -152,7 +154,7 @@ func (_c *MockRepository_GetByID_Call) Return(_a0 *chore.Chore) *MockRepository_
 	return _c
 }
 
-func (_c *MockRepository_GetByID_Call) RunAndReturn(run func(chore.ID) *chore.Chore) *MockRepository_GetByID_Call {
+func (_c *MockRepository_GetByID_Call) RunAndReturn(run func(base.ID) *chore.Chore) *MockRepository_GetByID_Call {
 	_c.Call.Return(run)
 	return _c
 }

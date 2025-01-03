@@ -1,6 +1,6 @@
 package chore
 
-type ID int64
+import . "github.com/arman-yekkehkhani/task-tide/internal/model/base"
 
 type Status string
 
@@ -11,7 +11,7 @@ const (
 )
 
 type Chore struct {
-	ID
+	ID          ID
 	Title       string `json:"title"`
 	Description string `json:"description"`
 	Status      Status

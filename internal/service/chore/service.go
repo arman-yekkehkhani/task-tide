@@ -2,8 +2,10 @@ package chore
 
 import (
 	"errors"
+	. "github.com/arman-yekkehkhani/task-tide/internal/model/base"
 	. "github.com/arman-yekkehkhani/task-tide/internal/model/chore"
 	. "github.com/arman-yekkehkhani/task-tide/internal/repo/chore"
+
 	"strings"
 )
 
