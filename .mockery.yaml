@@ -10,3 +10,23 @@ packages:
       inpackage: False
     interfaces:
       Repository:
+  github.com/arman-yekkehkhani/task-tide/internal/repo/user:
+    config:
+      recursive: True
+      dir: "{{.InterfaceDir}}/mocks"
+      filename: "{{.InterfaceName}}_mock.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "mocks"
+      inpackage: False
+    interfaces:
+      UserRepository:
+  github.com/arman-yekkehkhani/task-tide/internal/service/security:
+    config:
+      recursive: True
+      dir: "{{.InterfaceDir}}/mocks"
+      filename: "{{.InterfaceName}}_mock.go"
+      mockname: "Mock{{.InterfaceName}}"
+      outpkg: "mocks"
+      inpackage: False
+    interfaces:
+      HashService:
