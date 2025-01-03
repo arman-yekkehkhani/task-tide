@@ -112,3 +112,58 @@ func TestGivenHashServiceError_CreateUser_ReturnsErrorAndAbortUserCreation(t *te
 	// then
 	assert.EqualError(t, err, hashingErr.Error())
 }
+
+func TestGivenEmptyOrWhitespacePassword_ChangePassword_ReturnsError(t *testing.T) {
+	// given
+	passwords := []string{
+		"", "    ",
+	}
+
+	svc := ServiceImpl{}
+
+	// when
+	for _, password := range passwords {
+		err := svc.ChangePassword(&User{}, password)
+		// then
+		assert.NotNil(t, err)
+	}
+}
+
+func TestGivenSamePassword_ChangePassword_ReturnsError(t *testing.T) {
+	// given
+	oldHashedPass := "hashedPass"
+	newPass := "pass"
+
+	hashSvc := securityMock.NewMockHashService(t)
+	hashSvc.EXPECT().Hash(security.BCRYPT, newPass).Return(oldHashedPass, nil)
+
+	svc := ServiceImpl{
+		hashService: hashSvc,
+	}
+
+	// when
+	err := svc.ChangePassword(&User{Password: oldHashedPass}, newPass)
+
+	// then
+	assert.EqualError(t, err, SamePassword.Error())
+}
+
+func TestGivenNewPassword_ChangePassword_IsSuccessful(t *testing.T) {
+	// given
+	oldHashedPass := "oldpass"
+	newPass := "pass"
+	newHashedPass := "hashedPass"
+	user := &User{Password: oldHashedPass}
+
+	hashService := securityMock.NewMockHashService(t)
+	hashService.EXPECT().Hash(security.BCRYPT, newPass).Return(newHashedPass, nil)
+
+	svc := ServiceImpl{hashService: hashService}
+
+	// when
+	err := svc.ChangePassword(user, newPass)
+
+	// then
+	assert.Nil(t, err)
+	assert.Equal(t, newHashedPass, user.Password)
+}

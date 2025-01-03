@@ -12,6 +12,7 @@ var (
 	UsernameAlreadyExists = errors.New("username already exists")
 	UsernameNotFound      = errors.New("username does not exist")
 	EmptyPassword         = errors.New("password is empty or whitespace")
+	SamePassword          = errors.New("new password is the same as old one")
 )
 
 type ServiceImpl struct {
@@ -39,4 +40,22 @@ func (s *ServiceImpl) Create(username string, password string) (*User, error) {
 	}
 	saved, err := s.repo.Create(user)
 	return saved, err
+}
+
+func (s *ServiceImpl) ChangePassword(user *User, password string) error {
+	if strings.TrimSpace(password) == "" {
+		return EmptyPassword
+	}
+
+	hashedPass, err := s.hashService.Hash(security.BCRYPT, password)
+	if err != nil {
+		return err
+	}
+
+	if user.Password == hashedPass {
+		return SamePassword
+	}
+
+	user.Password = hashedPass
+	return nil
 }
