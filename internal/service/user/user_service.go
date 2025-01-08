@@ -57,5 +57,9 @@ func (s *ServiceImpl) ChangePassword(user *User, password string) error {
 	}
 
 	user.Password = hashedPass
+	_, err = s.repo.Save(user)
+	if err != nil {
+		return err
+	}
 	return nil
 }

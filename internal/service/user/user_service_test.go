@@ -153,12 +153,26 @@ func TestGivenNewPassword_ChangePassword_IsSuccessful(t *testing.T) {
 	oldHashedPass := "oldpass"
 	newPass := "pass"
 	newHashedPass := "hashedPass"
-	user := &User{Password: oldHashedPass}
+	username := "username"
+	user := &User{
+		Username: username,
+		Password: oldHashedPass,
+	}
+	updateduser := &User{
+		Username: username,
+		Password: newHashedPass,
+	}
 
 	hashService := securityMock.NewMockHashService(t)
 	hashService.EXPECT().Hash(security.BCRYPT, newPass).Return(newHashedPass, nil)
 
-	svc := ServiceImpl{hashService: hashService}
+	userRepo := mocks.NewMockUserRepository(t)
+	userRepo.EXPECT().Save(updateduser).Return(updateduser, nil)
+
+	svc := ServiceImpl{
+		hashService: hashService,
+		repo:        userRepo,
+	}
 
 	// when
 	err := svc.ChangePassword(user, newPass)
